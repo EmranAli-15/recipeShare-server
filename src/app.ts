@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-// import globalErrorHandler from './middlewares/globalErrorHandler';
+import { authRoutes } from './app/modules/auth/auth.route';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
 export const app = express();
 
 app.use(express.json());
@@ -10,7 +11,7 @@ app.use(cors());
 
 
 // -----ROUTES START----- //
-
+app.use('/api', authRoutes);
 
 // -----ROUTES END----- //
 
@@ -31,4 +32,4 @@ app.use((req: Request, res: Response, next) => {
   })
 });
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
