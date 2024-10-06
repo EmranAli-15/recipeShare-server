@@ -35,6 +35,10 @@ const userSchema = new Schema<TUser>(
             type: String,
             required: false
         },
+        isDeleted: {
+            type: Boolean,
+            required: false
+        },
         OTP: {
             type: String,
             required: false

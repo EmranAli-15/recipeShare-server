@@ -9,6 +9,7 @@ const createUserValidation = z.object({
         role: z.enum(['admin', 'user']),
         address: z.string().optional(),
         photo: z.string().optional(),
+        isDeleted: z.boolean().optional(),
         OTP:z.string().optional()
     })
 });

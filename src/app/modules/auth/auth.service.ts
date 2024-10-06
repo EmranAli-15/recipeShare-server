@@ -36,6 +36,14 @@ const loginUser = async (payload: TAuth) => {
 };
 
 const registerUser = async (payload: TAuthRegister) => {
+    const isUserExist = await User.findOne({
+        email: payload?.email
+    });
+
+    if (isUserExist) {
+        throw new AppError(400, 'The email is already registered!');
+    };
+
     const role = "user";
     const data = { ...payload, role };
 

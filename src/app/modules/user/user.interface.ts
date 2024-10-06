@@ -6,5 +6,6 @@ export type TUser = {
     role: 'admin' | 'user';
     address: string;
     photo: string;
+    isDeleted: boolean,
     OTP:string
 };
