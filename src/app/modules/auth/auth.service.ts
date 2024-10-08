@@ -24,7 +24,8 @@ const loginUser = async (payload: TAuth) => {
 
     const jwtPayload = {
         email: isUserExist.email,
-        role: isUserExist.role
+        role: isUserExist.role,
+        photo: isUserExist?.photo
     };
 
     const accessToken = createAccessToken(jwtPayload);
@@ -51,7 +52,8 @@ const registerUser = async (payload: TAuthRegister) => {
 
     const jwtPayload = {
         email: createUser.email,
-        role: createUser.role
+        role: createUser.role,
+        photo: createUser?.photo
     };
 
     const accessToken = createAccessToken(jwtPayload);
