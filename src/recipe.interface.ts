@@ -1,7 +1,5 @@
-import { Types } from "mongoose";
-
 export type TRecipe = {
-    user: Types.ObjectId;
+    userId: string;
     title: string;
     image: string;
     like: number;
