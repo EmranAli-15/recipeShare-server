@@ -6,6 +6,7 @@ const createRecipeValidation = z.object({
         title: z.string(),
         image: z.string(),
         recipe: z.string(),
+        category: z.string(),
         totalComment: z.string().optional(),
         rating: z.number().optional(),
         like: z.number().optional(),

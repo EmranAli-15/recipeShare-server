@@ -8,6 +8,7 @@ export type TRecipe = {
     totalComment: number;
     rating: number;
     recipe: string;
+    category:string;
     comments: string[];
     isDeleted: boolean,
 };

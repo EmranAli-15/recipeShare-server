@@ -33,6 +33,10 @@ const recipeSchema = new Schema<TRecipe>(
             type: Number,
             required: false
         },
+        category: {
+            type: String,
+            required: true
+        },
         rating: {
             type: Number,
             required: false
