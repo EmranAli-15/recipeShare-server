@@ -8,8 +8,6 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
     payload.totalComment = 0;
     payload.isDeleted = false;
 
-    console.log(payload);
-
 
     // const result = await Recipe.create(payload);
     // return result;

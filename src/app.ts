@@ -6,8 +6,10 @@ import { recipeRoutes } from './app/modules/recipe/recipe.route';
 export const app = express();
 
 app.use(express.json());
-app.use(cors());
-
+app.use(cors({
+  origin: 'http://localhost:3000',  // The address of your client
+  credentials: true
+}));
 
 
 

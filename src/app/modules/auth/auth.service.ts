@@ -26,7 +26,7 @@ const loginUser = async (payload: TAuth) => {
         email: isUserExist.email,
         role: isUserExist.role,
         photo: isUserExist?.photo,
-        userId: isUserExist._id
+        userId: isUserExist?._id
     };
 
     const accessToken = createAccessToken(jwtPayload);

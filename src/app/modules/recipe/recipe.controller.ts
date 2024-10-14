@@ -4,6 +4,7 @@ import { recipeServices } from "./recipe.service";
 const createARecipe = catchAsync(
     async (req, res) => {
         const body = req.body;
+
         const result = await recipeServices.createRecipeIntoDB(body);
 
         res.status(200).json({
