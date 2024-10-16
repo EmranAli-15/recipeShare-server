@@ -25,7 +25,6 @@ const loginUser = async (payload: TAuth) => {
     const jwtPayload = {
         email: isUserExist.email,
         role: isUserExist.role,
-        photo: isUserExist?.photo,
         userId: isUserExist?._id
     };
 
@@ -54,7 +53,6 @@ const registerUser = async (payload: TAuthRegister) => {
     const jwtPayload = {
         email: createUser.email,
         role: createUser.role,
-        photo: createUser?.photo,
         userId: createUser._id
     };
 
