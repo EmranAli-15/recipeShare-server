@@ -7,5 +7,7 @@ const route = express.Router();
 
 route.post('/recipe/createRecipe', validateRequest(recipeValidations.createRecipeValidation), recipeControllers.createARecipe);
 
+route.get('/recipe/getRecipes', recipeControllers.getRecipes);
+
 
 export const recipeRoutes = route;

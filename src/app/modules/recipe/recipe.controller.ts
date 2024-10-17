@@ -16,6 +16,25 @@ const createARecipe = catchAsync(
     }
 );
 
+const getRecipes = catchAsync(
+    async (req, res) => {
+        const { page, limit } = req.query;
+
+        const pageNumber = Number(page);
+        const limitNumber = Number(limit);
+
+        const result = await recipeServices.getRecipesFormDB(pageNumber, limitNumber);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Recipe Fetched successfully',
+            data: result
+        });
+    }
+);
+
 export const recipeControllers = {
     createARecipe,
+    getRecipes
 };

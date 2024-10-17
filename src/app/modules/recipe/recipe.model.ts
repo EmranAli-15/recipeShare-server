@@ -11,7 +11,6 @@ const recipeSchema = new Schema<TRecipe>(
         title: {
             type: String,
             required: true,
-            unique: true
         },
         image: {
             type: String,
