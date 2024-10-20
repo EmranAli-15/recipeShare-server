@@ -28,13 +28,29 @@ const getRecipes = catchAsync(
         res.status(200).json({
             success: true,
             statusCode: 200,
-            message: 'Recipe Fetched successfully',
+            message: 'Recipes Fetched successfully',
             data: result
         });
     }
 );
 
+const getSingleRecipe = catchAsync(
+    async (req, res) => {
+        const { id } = req.params;
+        
+        const result = await recipeServices.getSingleRecipeFromDB(id);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Recipe Fetched successfully',
+            data: result
+        });
+    }
+)
+
 export const recipeControllers = {
+    getSingleRecipe,
     createARecipe,
     getRecipes
 };

@@ -9,5 +9,7 @@ route.post('/recipe/createRecipe', validateRequest(recipeValidations.createRecip
 
 route.get('/recipe/getRecipes', recipeControllers.getRecipes);
 
+route.get('/recipe/getSingleRecipe/:id', recipeControllers.getSingleRecipe);
+
 
 export const recipeRoutes = route;

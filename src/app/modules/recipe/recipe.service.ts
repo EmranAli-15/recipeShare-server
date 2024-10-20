@@ -13,12 +13,17 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
 };
 
 const getRecipesFormDB = async (page: number, limit: number) => {
-    const result = await Recipe.find().skip(page).limit(limit).populate("user");
-    
-    return result
+    const result = await Recipe.find().skip(page).limit(limit);
+    return result;
+};
+
+const getSingleRecipeFromDB = async (id: string) => {
+    const result = await Recipe.findById(id).populate("user");
+    return result;
 }
 
 export const recipeServices = {
+    getSingleRecipeFromDB,
     createRecipeIntoDB,
     getRecipesFormDB
 };
