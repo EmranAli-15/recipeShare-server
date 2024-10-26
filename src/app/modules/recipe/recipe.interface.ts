@@ -10,5 +10,5 @@ export type TRecipe = {
     recipe: string;
     category:string;
     comments: string[];
-    isDeleted: boolean,
+    isDeleted: boolean;
 };

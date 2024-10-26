@@ -43,7 +43,7 @@ const recipeSchema = new Schema<TRecipe>(
         isDeleted: {
             type: Boolean,
             required: false
-        },
+        }
     },
     {
         timestamps: true

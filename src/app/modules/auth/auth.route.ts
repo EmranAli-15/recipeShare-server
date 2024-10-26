@@ -9,5 +9,8 @@ route.post('/auth/login', validateRequest(authValidations.loginValidation), auth
 
 route.post('/auth/register', validateRequest(authValidations.registerValidation), authControllers.registerUser);
 
+route.get('/auth/myProfile/:id', authControllers.myProfile);
+
+
 
 export const authRoutes = route;

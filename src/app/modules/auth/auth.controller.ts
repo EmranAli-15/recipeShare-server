@@ -12,7 +12,7 @@ const loginUser = catchAsync(
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            maxAge: 60 * 60 * 1000,
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30days in milliseconds
         });
 
         res.status(200).json({
@@ -33,7 +33,7 @@ const registerUser = catchAsync(
             httpOnly: true, // Prevents client-side JS from accessing the cookie
             secure: true,   // Ensures the cookie is sent only over HTTPS
             sameSite: 'none', // CSRF protection
-            maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30days in milliseconds
         });
 
         res.status(200).json({
@@ -45,8 +45,23 @@ const registerUser = catchAsync(
     }
 );
 
+const myProfile = catchAsync(
+    async (req, res) => {
+        const { id } = req.params
+        const result = await authServices.myProfile(id)
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "My profile data fetched successfully",
+            data: result
+        });
+    }
+);
+
 
 export const authControllers = {
     loginUser,
-    registerUser
+    registerUser,
+    myProfile
 };
