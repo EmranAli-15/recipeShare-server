@@ -6,6 +6,9 @@ export type TUser = {
     role: 'admin' | 'user';
     address: string;
     photo: string;
+    experience: number;
+    bio: string;
+    following: [];
     followers: number;
     isDeleted: boolean;
     OTP: string;

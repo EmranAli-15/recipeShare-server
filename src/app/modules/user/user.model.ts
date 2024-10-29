@@ -39,6 +39,19 @@ const userSchema = new Schema<TUser>(
             type: Number,
             required: false
         },
+        following: {
+            type: [Schema.Types.ObjectId],
+            required: false,
+            ref: 'User'
+        },
+        bio: {
+            type: String,
+            required: false
+        },
+        experience: {
+            type: Number,
+            required: false
+        },
         isDeleted: {
             type: Boolean,
             required: false
