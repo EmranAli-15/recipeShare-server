@@ -11,5 +11,7 @@ route.get('/recipe/getRecipes', recipeControllers.getRecipes);
 
 route.get('/recipe/getSingleRecipe/:id', recipeControllers.getSingleRecipe);
 
+route.get("/recipe/getMyRecipe/:userId", recipeControllers.getMyRecipe);
+
 
 export const recipeRoutes = route;

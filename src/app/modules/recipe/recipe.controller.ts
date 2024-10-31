@@ -37,7 +37,7 @@ const getRecipes = catchAsync(
 const getSingleRecipe = catchAsync(
     async (req, res) => {
         const { id } = req.params;
-        
+
         const result = await recipeServices.getSingleRecipeFromDB(id);
 
         res.status(200).json({
@@ -47,10 +47,26 @@ const getSingleRecipe = catchAsync(
             data: result
         });
     }
-)
+);
+
+const getMyRecipe = catchAsync(
+    async (req, res) => {
+        const { userId } = req.params;
+
+        const result = await recipeServices.getMyRecipesFromDB(userId);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'My recipes fetched successfully',
+            data: result
+        });
+    }
+);
 
 export const recipeControllers = {
     getSingleRecipe,
     createARecipe,
-    getRecipes
+    getRecipes,
+    getMyRecipe
 };

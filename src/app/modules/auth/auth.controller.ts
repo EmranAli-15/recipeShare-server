@@ -29,7 +29,7 @@ const registerUser = catchAsync(
         const result = await authServices.registerUser(req.body);
         const { accessToken, createUser } = result;
 
-        res.cookie('token', accessToken, {
+        res.cookie('accessToken', accessToken, {
             httpOnly: true, // Prevents client-side JS from accessing the cookie
             secure: true,   // Ensures the cookie is sent only over HTTPS
             sameSite: 'none', // CSRF protection
