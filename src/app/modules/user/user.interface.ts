@@ -8,6 +8,7 @@ export type TUser = {
     photo: string;
     experience: number;
     bio: string;
+    totalRecipes: number;
     following: [];
     followers: number;
     isDeleted: boolean;

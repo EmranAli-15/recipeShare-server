@@ -52,6 +52,10 @@ const userSchema = new Schema<TUser>(
             type: Number,
             required: false
         },
+        totalRecipes: {
+            type: Number,
+            required: false
+        },
         isDeleted: {
             type: Boolean,
             required: false

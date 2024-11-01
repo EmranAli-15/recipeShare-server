@@ -46,7 +46,8 @@ const registerUser = async (payload: TAuthRegister) => {
     };
 
     const role = "user";
-    const data = { ...payload, role };
+    const totalRecipes = 0;
+    const data = { ...payload, role, totalRecipes };
 
     const createUser = await User.create(data);
 

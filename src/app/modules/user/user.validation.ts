@@ -5,16 +5,8 @@ const createUserValidation = z.object({
         name: z.string(),
         email: z.string().email(),
         password: z.string(),
-        phone: z.string().optional(),
         role: z.enum(['admin', 'user']),
-        address: z.string().optional(),
-        photo: z.string().optional(),
-        followers: z.number().optional(),
-        following: z.string().array().optional(),
-        bio: z.string().optional(),
-        experience: z.number().optional(),
         isDeleted: z.boolean().optional(),
-        OTP: z.string().optional()
     })
 });
 
@@ -30,6 +22,7 @@ const updateUserValidation = z.object({
         followers: z.number().optional(),
         following: z.string().array().optional(),
         bio: z.string().optional(),
+        totalRecipes: z.number().optional(),
         experience: z.number().optional(),
         isDeleted: z.boolean().optional(),
         OTP: z.string().optional()
