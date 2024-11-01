@@ -14,16 +14,30 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
 };
 
 const getRecipesFormDB = async (page: number, limit: number) => {
-    const result = await Recipe.find().skip(page).limit(limit);
+    const result = await Recipe.aggregate([
+        { $skip: page },
+        { $limit: limit },
+        {
+            $lookup: {
+                from: "users",       // Name of the user collection
+                localField: "user",  // Field in Recipe collection that references user
+                foreignField: "_id", // Field in user collection that matches localField
+                as: "user"
+            }
+        },
+        { $unwind: "$user" },  // Unwind to handle single user object instead of array
+        {
+            $project: {
+                title: 1,
+                image: 1,
+                rating: 1,
+                "user.name": 1 // Only include the name field from userInfo
+            }
+        }
+    ]);
+
     return result;
 };
-
-
-// Just try to learn aggregation
-// const getRecipesFormDB = async (page: number, limit: number) => {
-//     const result = await Recipe.aggregate([{ $match: { title: {$regex: "the", $options:"i"} } }]);
-//     return result
-// };
 
 const getSingleRecipeFromDB = async (id: string) => {
     const result = await Recipe.findById(id).populate("user");
@@ -31,8 +45,7 @@ const getSingleRecipeFromDB = async (id: string) => {
 };
 
 const getMyRecipesFromDB = async (userId: string) => {
-    const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({image: 1, title: 1});
-    // const result = await Recipe.find({ user: userId })
+    const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1 });
     return result
 }
 
