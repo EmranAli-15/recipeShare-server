@@ -19,6 +19,23 @@ const updateAUser = catchAsync(
     }
 );
 
+const updateFollowing = catchAsync(
+    async (req, res) => {
+        const { id: whom } = req.body;
+        const { userId: myId } = req.user;
+
+        const result = userServices.updateFollowingIntoDB(myId, whom);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Following status updated!',
+            data: result
+        });
+    }
+);
+
 export const userControllers = {
-    updateAUser
+    updateAUser,
+    updateFollowing
 };

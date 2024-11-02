@@ -8,4 +8,6 @@ const route = express.Router();
 
 route.patch('/user/updateUser/:id', auth("admin", "user"), validateRequest(userValidations.updateUserValidation), userControllers.updateAUser);
 
+route.patch('/user/updateFollowing', auth("admin", "user"), validateRequest(userValidations.updateUserValidation), userControllers.updateFollowing);
+
 export const userRoutes = route;

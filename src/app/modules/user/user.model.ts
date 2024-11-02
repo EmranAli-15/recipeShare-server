@@ -1,7 +1,8 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { TUser } from "./user.interface";
 import bcrypt from 'bcrypt';
 import config from "../../config";
+import { number } from "zod";
 
 const userSchema = new Schema<TUser>(
     {
@@ -35,15 +36,6 @@ const userSchema = new Schema<TUser>(
             type: String,
             required: false
         },
-        followers: {
-            type: Number,
-            required: false
-        },
-        following: {
-            type: [Schema.Types.ObjectId],
-            required: false,
-            ref: 'User'
-        },
         bio: {
             type: String,
             required: false
@@ -51,6 +43,14 @@ const userSchema = new Schema<TUser>(
         experience: {
             type: Number,
             required: false
+        },
+        following: {
+            type: [Types.ObjectId],
+            require: false
+        },
+        followers: {
+            type: Number,
+            require: false
         },
         totalRecipes: {
             type: Number,

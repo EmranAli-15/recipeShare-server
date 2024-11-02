@@ -3,6 +3,7 @@ import { User } from "../user/user.model";
 import bcrypt from 'bcrypt';
 import { TAuth, TAuthRegister } from "./auth.interface";
 import { createAccessToken } from "../../utils/createAccessToken";
+import { Types } from "mongoose";
 
 
 
@@ -46,8 +47,7 @@ const registerUser = async (payload: TAuthRegister) => {
     };
 
     const role = "user";
-    const totalRecipes = 0;
-    const data = { ...payload, role, totalRecipes };
+    const data = { ...payload, role};
 
     const createUser = await User.create(data);
 

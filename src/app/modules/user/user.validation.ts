@@ -19,11 +19,11 @@ const updateUserValidation = z.object({
         role: z.enum(['admin', 'user']).optional(),
         address: z.string().optional(),
         photo: z.string().optional(),
-        followers: z.number().optional(),
-        following: z.string().array().optional(),
         bio: z.string().optional(),
-        totalRecipes: z.number().optional(),
         experience: z.number().optional(),
+        following: z.string().optional(),
+        followers: z.number().optional(),
+        totalRecipes: z.number().optional(),
         isDeleted: z.boolean().optional(),
         OTP: z.string().optional()
     })
