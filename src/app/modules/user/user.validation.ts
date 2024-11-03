@@ -22,7 +22,7 @@ const updateUserValidation = z.object({
         bio: z.string().optional(),
         experience: z.number().optional(),
         following: z.string().optional(),
-        followers: z.number().optional(),
+        followers: z.string().optional(),
         totalRecipes: z.number().optional(),
         isDeleted: z.boolean().optional(),
         OTP: z.string().optional()

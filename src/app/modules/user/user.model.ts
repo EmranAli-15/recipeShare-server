@@ -49,7 +49,7 @@ const userSchema = new Schema<TUser>(
             require: false
         },
         followers: {
-            type: Number,
+            type: [Types.ObjectId],
             require: false
         },
         totalRecipes: {

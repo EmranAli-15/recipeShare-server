@@ -9,7 +9,7 @@ export type TUser = {
     address: string;
     photo: string;
     experience: number;
-    followers: number;
+    followers: Types.ObjectId[];
     following: Types.ObjectId[];
     bio: string;
     totalRecipes: number;

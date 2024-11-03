@@ -24,7 +24,7 @@ const updateFollowing = catchAsync(
         const { id: whom } = req.body;
         const { userId: myId } = req.user;
 
-        const result = userServices.updateFollowingIntoDB(myId, whom);
+        const result = await userServices.updateFollowingIntoDB(myId, whom);
 
         res.status(200).json({
             success: true,
