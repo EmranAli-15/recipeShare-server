@@ -21,10 +21,10 @@ const updateAUser = catchAsync(
 
 const updateFollowing = catchAsync(
     async (req, res) => {
-        const { id: whom } = req.body;
+        const { id: whom, isFollow } = req.body;
         const { userId: myId } = req.user;
 
-        const result = await userServices.updateFollowingIntoDB(myId, whom);
+        const result = await userServices.updateFollowingIntoDB(myId, whom, isFollow);
 
         res.status(200).json({
             success: true,
