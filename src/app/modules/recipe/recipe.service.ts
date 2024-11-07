@@ -44,6 +44,16 @@ const getSingleRecipeFromDB = async (id: string) => {
     return result;
 };
 
+const updateRecipeIntoDB = async (payload: { body: any, recipeId: string }) => {
+    const result = await Recipe.findByIdAndUpdate(
+        payload.recipeId,
+        { $set: payload.body },
+        { new: true, runValidators: true }
+    );
+
+    return result;
+};
+
 const getMyRecipesFromDB = async (userId: string) => {
     const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1 });
     return result
@@ -53,5 +63,6 @@ export const recipeServices = {
     getSingleRecipeFromDB,
     createRecipeIntoDB,
     getRecipesFormDB,
-    getMyRecipesFromDB
+    getMyRecipesFromDB,
+    updateRecipeIntoDB
 };

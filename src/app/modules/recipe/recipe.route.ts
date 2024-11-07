@@ -2,6 +2,7 @@ import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { recipeControllers } from './recipe.controller';
 import { recipeValidations } from './recipe.validation';
+import auth from '../../middlewares/auth';
 
 const route = express.Router();
 
@@ -12,6 +13,8 @@ route.get('/recipe/getRecipes', recipeControllers.getRecipes);
 route.get('/recipe/getSingleRecipe/:id', recipeControllers.getSingleRecipe);
 
 route.get("/recipe/getMyRecipe/:userId", recipeControllers.getMyRecipe);
+
+route.patch('/recipe/updateRecipe/:recipeId', auth("user", "admin"), validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.updateRecipe);
 
 
 export const recipeRoutes = route;

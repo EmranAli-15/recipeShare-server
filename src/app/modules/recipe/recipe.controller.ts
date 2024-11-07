@@ -34,6 +34,22 @@ const getRecipes = catchAsync(
     }
 );
 
+const updateRecipe = catchAsync(
+    async (req, res) => {
+        const body = req.body;
+        const { recipeId } = req.params;
+
+        const result = await recipeServices.updateRecipeIntoDB({ body, recipeId });
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Recipes updated successfully',
+            data: result
+        });
+    }
+);
+
 const getSingleRecipe = catchAsync(
     async (req, res) => {
         const { id } = req.params;
@@ -68,5 +84,6 @@ export const recipeControllers = {
     getSingleRecipe,
     createARecipe,
     getRecipes,
-    getMyRecipe
+    getMyRecipe,
+    updateRecipe
 };
