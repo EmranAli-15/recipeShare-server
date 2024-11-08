@@ -3,8 +3,6 @@ import { User } from "../user/user.model";
 import bcrypt from 'bcrypt';
 import { TAuth, TAuthRegister } from "./auth.interface";
 import { createAccessToken } from "../../utils/createAccessToken";
-import { Types } from "mongoose";
-
 
 
 const loginUser = async (payload: TAuth) => {
