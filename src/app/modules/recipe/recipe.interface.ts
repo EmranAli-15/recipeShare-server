@@ -1,4 +1,8 @@
 import { Types } from "mongoose";
+type Comment = {
+    userId: Types.ObjectId;
+    comment: string;
+}
 
 export type TRecipe = {
     user: Types.ObjectId;
@@ -8,7 +12,12 @@ export type TRecipe = {
     totalComment: number;
     rating: number;
     recipe: string;
-    category:string;
-    comments: string[];
+    category: string;
+    comments: [
+        {
+            userId: Types.ObjectId;
+            comment: string;
+        }
+    ];
     isDeleted: boolean;
 };

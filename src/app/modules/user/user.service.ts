@@ -1,4 +1,4 @@
-import mongoose, { startSession } from "mongoose";
+import mongoose from "mongoose";
 import { User } from "./user.model";
 
 const updateUserIntoDB = async (payload: { body: any, id: string }) => {

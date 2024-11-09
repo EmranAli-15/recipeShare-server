@@ -4,7 +4,6 @@ import { Types } from "mongoose";
 
 const createRecipeIntoDB = async (payload: TRecipe) => {
     payload.like = 0;
-    payload.comments = [];
     payload.rating = 5;
     payload.totalComment = 0;
     payload.isDeleted = false;
@@ -40,7 +39,12 @@ const getRecipesFormDB = async (page: number, limit: number) => {
 };
 
 const getSingleRecipeFromDB = async (id: string) => {
-    const result = await Recipe.findById(id).populate("user");
+    // const result = await Recipe.findById(id).populate("user");
+
+    const result = await Recipe.findById(id).populate({path: "user", populate: "user"})
+
+    console.log(result);
+    
     return result;
 };
 
@@ -57,12 +61,21 @@ const updateRecipeIntoDB = async (payload: { body: any, recipeId: string }) => {
 const getMyRecipesFromDB = async (userId: string) => {
     const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1 });
     return result
-}
+};
+
+const createCommentInARecipeIntoDB = async ({ recipeId, comment }: { recipeId: string, comment: string }) => {
+    const result = await Recipe.findByIdAndUpdate(
+        recipeId,
+        { $push: { comments: comment } }
+    )
+    return result;
+};
 
 export const recipeServices = {
     getSingleRecipeFromDB,
     createRecipeIntoDB,
     getRecipesFormDB,
     getMyRecipesFromDB,
-    updateRecipeIntoDB
+    updateRecipeIntoDB,
+    createCommentInARecipeIntoDB
 };

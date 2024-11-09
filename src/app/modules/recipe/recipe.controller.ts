@@ -80,10 +80,28 @@ const getMyRecipe = catchAsync(
     }
 );
 
+const createCommentInARecipe = catchAsync(
+    async (req, res) => {
+        const { recipeId } = req.params;
+        const comment = req.body;
+
+
+        const result = await recipeServices.createCommentInARecipeIntoDB({ recipeId, comment });
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Your comment has successfully paste',
+            data: result
+        });
+    }
+);
+
 export const recipeControllers = {
     getSingleRecipe,
     createARecipe,
     getRecipes,
     getMyRecipe,
-    updateRecipe
+    updateRecipe,
+    createCommentInARecipe
 };

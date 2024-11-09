@@ -16,5 +16,7 @@ route.get("/recipe/getMyRecipe/:userId", recipeControllers.getMyRecipe);
 
 route.patch('/recipe/updateRecipe/:recipeId', auth("user", "admin"), validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.updateRecipe);
 
+route.patch('/recipe/pasteComment/:recipeId', validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.createCommentInARecipe);
+
 
 export const recipeRoutes = route;

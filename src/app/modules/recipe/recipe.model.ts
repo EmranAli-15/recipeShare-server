@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { TRecipe } from "./recipe.interface";
 
 const recipeSchema = new Schema<TRecipe>(
@@ -25,8 +25,13 @@ const recipeSchema = new Schema<TRecipe>(
             required: false
         },
         comments: {
-            type: [],
-            required: false
+            userId: {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            },
+            comment: {
+                type: String,
+            }
         },
         like: {
             type: Number,

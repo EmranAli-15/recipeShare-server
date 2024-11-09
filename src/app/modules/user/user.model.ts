@@ -2,7 +2,6 @@ import { Schema, Types, model } from "mongoose";
 import { TUser } from "./user.interface";
 import bcrypt from 'bcrypt';
 import config from "../../config";
-import { number } from "zod";
 
 const userSchema = new Schema<TUser>(
     {

@@ -25,7 +25,10 @@ const updateRecipeValidation = z.object({
         totalComment: z.string().optional(),
         rating: z.number().optional(),
         like: z.number().optional(),
-        comments: z.string().array().optional(),
+        comments: z.object({
+            userId: z.string(),
+            comment: z.string()
+        }).optional(),
         isDeleted: z.boolean().optional(),
     })
 });
