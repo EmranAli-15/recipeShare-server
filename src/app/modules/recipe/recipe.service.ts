@@ -5,8 +5,6 @@ import { Types } from "mongoose";
 const createRecipeIntoDB = async (payload: TRecipe) => {
     payload.like = 0;
     payload.rating = 5;
-    payload.totalComment = 0;
-    payload.isDeleted = false;
 
     const result = await Recipe.create(payload);
     return result;
@@ -39,12 +37,8 @@ const getRecipesFormDB = async (page: number, limit: number) => {
 };
 
 const getSingleRecipeFromDB = async (id: string) => {
-    // const result = await Recipe.findById(id).populate("user");
+    const result = await Recipe.findById(id).populate("user", "name photo").populate("comments.userId", "name photo");
 
-    const result = await Recipe.findById(id).populate({path: "user", populate: "user"})
-
-    console.log(result);
-    
     return result;
 };
 
