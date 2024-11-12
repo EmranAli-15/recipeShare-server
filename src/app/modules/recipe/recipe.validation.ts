@@ -9,7 +9,7 @@ const createRecipeValidation = z.object({
         category: z.string(),
         totalComment: z.string().optional(),
         rating: z.number().optional(),
-        like: z.number().optional(),
+        likes: z.string().optional(),
         comments: z.string().array().optional(),
         isDeleted: z.boolean().optional(),
     })
@@ -24,7 +24,7 @@ const updateRecipeValidation = z.object({
         category: z.string().optional(),
         totalComment: z.string().optional(),
         rating: z.number().optional(),
-        like: z.number().optional(),
+        likes: z.string().optional(),
         comments: z.object({
             userId: z.string(),
             comment: z.string()

@@ -5,6 +5,9 @@ const createARecipe = catchAsync(
     async (req, res) => {
         const body = req.body;
 
+        console.log(body);
+        
+
         const result = await recipeServices.createRecipeIntoDB(body);
 
         res.status(200).json({

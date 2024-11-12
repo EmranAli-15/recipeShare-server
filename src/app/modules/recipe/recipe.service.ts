@@ -3,7 +3,6 @@ import { Recipe } from "./recipe.model";
 import { Types } from "mongoose";
 
 const createRecipeIntoDB = async (payload: TRecipe) => {
-    payload.like = 0;
     payload.rating = 5;
 
     const result = await Recipe.create(payload);
@@ -64,6 +63,16 @@ const createCommentInARecipeIntoDB = async ({ recipeId, comment }: { recipeId: s
     )
     return result;
 };
+
+const updateLikesInRecipeIntoDB = async ({ userId, recipeId, isLiked }: { userId: string, recipeId: string, isLiked: boolean }) => {
+    if (isLiked) {
+        await Recipe.findByIdAndUpdate(recipeId, { $pull: { likes: userId } });
+    } else {
+        await Recipe.findByIdAndUpdate(recipeId, { $addToSet: { likes: userId } });
+    }
+
+    return;
+}
 
 export const recipeServices = {
     getSingleRecipeFromDB,
