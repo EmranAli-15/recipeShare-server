@@ -37,7 +37,7 @@ const getRecipesFormDB = async (page: number, limit: number) => {
 };
 
 const getSingleRecipeFromDB = async (id: string) => {
-    const result = await Recipe.findById(id).populate("user", "name photo").populate("comments.userId", "name photo");
+    const result = await Recipe.findById(id).populate("user").populate("comments.userId", "name photo");
 
     return result;
 };
