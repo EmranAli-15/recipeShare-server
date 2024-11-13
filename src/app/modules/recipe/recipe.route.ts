@@ -18,5 +18,7 @@ route.patch('/recipe/updateRecipe/:recipeId', auth("user", "admin"), validateReq
 
 route.patch('/recipe/pasteComment/:recipeId', validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.createCommentInARecipe);
 
+route.patch('/recipe/updateLike/:recipeId', validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.updateLikeInRecipe);
+
 
 export const recipeRoutes = route;

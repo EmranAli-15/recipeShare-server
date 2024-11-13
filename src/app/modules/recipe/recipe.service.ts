@@ -80,5 +80,6 @@ export const recipeServices = {
     getRecipesFormDB,
     getMyRecipesFromDB,
     updateRecipeIntoDB,
-    createCommentInARecipeIntoDB
+    createCommentInARecipeIntoDB,
+    updateLikesInRecipeIntoDB
 };

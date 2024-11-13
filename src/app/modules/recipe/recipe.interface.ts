@@ -8,7 +8,7 @@ export type TRecipe = {
     user: Types.ObjectId;
     title: string;
     image: string;
-    likes: [Types.ObjectId];
+    likes: string;
     totalComment: number;
     rating: number;
     recipe: string;

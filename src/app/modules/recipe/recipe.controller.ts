@@ -6,7 +6,7 @@ const createARecipe = catchAsync(
         const body = req.body;
 
         console.log(body);
-        
+
 
         const result = await recipeServices.createRecipeIntoDB(body);
 
@@ -100,11 +100,28 @@ const createCommentInARecipe = catchAsync(
     }
 );
 
+const updateLikeInRecipe = catchAsync(
+    async (req, res) => {
+        const { recipeId } = req.params;
+        const { isLiked, userId } = req.body;
+
+        const result = await recipeServices.updateLikesInRecipeIntoDB({ userId, recipeId, isLiked });
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Your comment has successfully paste',
+            data: result
+        });
+    }
+);
+
 export const recipeControllers = {
     getSingleRecipe,
     createARecipe,
     getRecipes,
     getMyRecipe,
     updateRecipe,
-    createCommentInARecipe
+    createCommentInARecipe,
+    updateLikeInRecipe
 };
