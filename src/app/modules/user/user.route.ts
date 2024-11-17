@@ -10,4 +10,6 @@ route.patch('/user/updateUser/:id', auth("admin", "user"), validateRequest(userV
 
 route.patch('/user/updateFollowing', auth("admin", "user"), validateRequest(userValidations.updateUserValidation), userControllers.updateFollowing);
 
+route.get('/auth/myProfile/:id', auth("user", "admin"), userControllers.myProfile);
+
 export const userRoutes = route;

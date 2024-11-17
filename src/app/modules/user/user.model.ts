@@ -45,7 +45,8 @@ const userSchema = new Schema<TUser>(
         },
         following: {
             type: [Types.ObjectId],
-            require: false
+            require: false,
+            ref: "User"
         },
         followers: {
             type: [Types.ObjectId],

@@ -63,14 +63,7 @@ const registerUser = async (payload: TAuthRegister) => {
     };
 };
 
-const myProfile = async (id: string) => {
-    const result = await User.findById(id);
-    return result;
-};
-
-
 export const authServices = {
     loginUser,
     registerUser,
-    myProfile
 };

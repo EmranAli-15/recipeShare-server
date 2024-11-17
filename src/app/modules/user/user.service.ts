@@ -50,8 +50,15 @@ const updateFollowingIntoDB = async (myId: string, anotherPersonId: string, isFo
     }
 };
 
+const myProfile = async (id: string) => {
+    const result = await User.findById(id).populate("following", "name photo followers");
+    
+    return result;
+};
+
 
 export const userServices = {
     updateUserIntoDB,
-    updateFollowingIntoDB
+    updateFollowingIntoDB,
+    myProfile
 }
