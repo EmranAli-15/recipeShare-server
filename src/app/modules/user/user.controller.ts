@@ -49,8 +49,23 @@ const myProfile = catchAsync(
     }
 );
 
+const anyUserProfile = catchAsync(
+    async (req, res) => {
+        const { id } = req.params
+        const result = await userServices.anyUserProfileFromDB(id)
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "User profile data fetched successfully",
+            data: result
+        });
+    }
+);
+
 export const userControllers = {
     updateAUser,
     updateFollowing,
-    myProfile
+    myProfile,
+    anyUserProfile
 };

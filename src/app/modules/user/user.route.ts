@@ -12,4 +12,6 @@ route.patch('/user/updateFollowing', auth("admin", "user"), validateRequest(user
 
 route.get('/auth/myProfile/:id', auth("user", "admin"), userControllers.myProfile);
 
+route.get('/user/anyUserProfile/:id', userControllers.anyUserProfile);
+
 export const userRoutes = route;

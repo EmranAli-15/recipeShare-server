@@ -56,9 +56,15 @@ const myProfile = async (id: string) => {
     return result;
 };
 
+const anyUserProfileFromDB = async (id: string) => {
+    const result = await User.findById(id);
+    
+    return result;
+};
 
 export const userServices = {
     updateUserIntoDB,
     updateFollowingIntoDB,
-    myProfile
+    myProfile,
+    anyUserProfileFromDB
 }
