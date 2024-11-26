@@ -9,25 +9,26 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
     return result;
 };
 
-const getRecipesFormDB = async (page: number, limit: number) => {
+const getRecipesFormDB = async (page: number, limit: number, category: any) => {
     const result = await Recipe.aggregate([
         { $skip: page },
+        ...(category ? [{ $match: { category } }] : []),
         { $limit: limit },
         {
             $lookup: {
-                from: "users",       // Name of the user collection
-                localField: "user",  // Field in Recipe collection that references user
-                foreignField: "_id", // Field in user collection that matches localField
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
                 as: "user"
             }
         },
-        { $unwind: "$user" },  // Unwind to handle single user object instead of array
+        { $unwind: "$user" },
         {
             $project: {
                 title: 1,
                 image: 1,
                 rating: 1,
-                "user.name": 1 // Only include the name field from userInfo
+                "user.name": 1
             }
         }
     ]);

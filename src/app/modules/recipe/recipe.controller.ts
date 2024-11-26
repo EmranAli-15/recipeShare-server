@@ -5,9 +5,6 @@ const createARecipe = catchAsync(
     async (req, res) => {
         const body = req.body;
 
-        console.log(body);
-
-
         const result = await recipeServices.createRecipeIntoDB(body);
 
         res.status(200).json({
@@ -21,12 +18,12 @@ const createARecipe = catchAsync(
 
 const getRecipes = catchAsync(
     async (req, res) => {
-        const { page, limit } = req.query;
+        const { page, limit, category } = req.query;
 
         const pageNumber = Number(page);
         const limitNumber = Number(limit);
 
-        const result = await recipeServices.getRecipesFormDB(pageNumber, limitNumber);
+        const result = await recipeServices.getRecipesFormDB(pageNumber, limitNumber, category);
 
         res.status(200).json({
             success: true,
