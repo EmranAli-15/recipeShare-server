@@ -35,7 +35,8 @@ const recipeSchema = new Schema<TRecipe>(
         },
         likes: {
             type: [Types.ObjectId],
-            require: false
+            require: false,
+            ref: "User"
         },
         category: {
             type: String,

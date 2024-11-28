@@ -23,7 +23,7 @@ const auth = (...requiredFields: TUserRole[]) => {
 
             jwt.verify(token, config.accessToken as string, (error, decoded) => {
                 if (error) {
-                    throw new AppError(401, 'You are not authorized person !');
+                    throw new AppError(401, 'Please login again!');
                 };
 
                 const { role } = decoded as JwtPayload;
