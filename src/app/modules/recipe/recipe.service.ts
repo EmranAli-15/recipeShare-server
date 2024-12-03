@@ -1,6 +1,7 @@
 import { TRecipe } from "./recipe.interface";
 import { Recipe } from "./recipe.model";
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
+const { ObjectId } = mongoose.Types;
 
 const createRecipeIntoDB = async (payload: TRecipe) => {
     payload.rating = 5;
@@ -11,7 +12,7 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
 
 const getRecipesFormDB = async (page: number, limit: number, category: any) => {
     const result = await Recipe.aggregate([
-        { $skip: page },
+        { $skip: page }, // I want to those data before an Id and want to fetch more data
         ...(category ? [{ $match: { category } }] : []),
         { $limit: limit },
         {
@@ -32,6 +33,25 @@ const getRecipesFormDB = async (page: number, limit: number, category: any) => {
             }
         }
     ]);
+
+    return result;
+};
+
+const getCategoryRecipesFormDB = async (lastFetchedId: string | number, limit: number, category: any) => {
+    let result;
+
+    if (lastFetchedId == "0") {
+        result = await Recipe.find({ category: category }).limit(limit).populate("user", "name")
+    } else {
+        result = await Recipe.find(
+            { _id: { $gt: new ObjectId(lastFetchedId) }, category: category },
+        )
+            .limit(limit)
+            .populate("user", "name")
+    }
+
+    console.log(result);
+    
 
     return result;
 };
@@ -82,5 +102,6 @@ export const recipeServices = {
     getMyRecipesFromDB,
     updateRecipeIntoDB,
     createCommentInARecipeIntoDB,
-    updateLikesInRecipeIntoDB
+    updateLikesInRecipeIntoDB,
+    getCategoryRecipesFormDB
 };

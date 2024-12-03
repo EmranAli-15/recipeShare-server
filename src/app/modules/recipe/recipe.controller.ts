@@ -34,6 +34,22 @@ const getRecipes = catchAsync(
     }
 );
 
+const getCategoryRecipes = catchAsync(
+    async (req, res) => {
+        const { lastFetchedId, limit, category } = req.query;
+        const limitNumber = Number(limit);
+
+        const result = await recipeServices.getCategoryRecipesFormDB(lastFetchedId as string, limitNumber, category);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Recipes Fetched successfully',
+            data: result
+        });
+    }
+);
+
 const updateRecipe = catchAsync(
     async (req, res) => {
         const body = req.body;
@@ -120,5 +136,6 @@ export const recipeControllers = {
     getMyRecipe,
     updateRecipe,
     createCommentInARecipe,
-    updateLikeInRecipe
+    updateLikeInRecipe,
+    getCategoryRecipes
 };
