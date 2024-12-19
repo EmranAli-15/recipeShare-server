@@ -12,7 +12,7 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
 
 const getRecipesFormDB = async (page: number, limit: number, category: any) => {
     const result = await Recipe.aggregate([
-        { $skip: page }, // I want to those data before an Id and want to fetch more data
+        { $skip: page },
         ...(category ? [{ $match: { category } }] : []),
         { $limit: limit },
         {
@@ -49,9 +49,6 @@ const getCategoryRecipesFormDB = async (lastFetchedId: string | number, limit: n
             .limit(limit)
             .populate("user", "name")
     }
-
-    console.log(result);
-    
 
     return result;
 };
