@@ -10,9 +10,9 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
     return result;
 };
 
-const getRecipesFormDB = async (page: number, limit: number, category: any) => {
+const getRecipesFormDB = async (page: number, limit: number, category: any) => {    
     const result = await Recipe.aggregate([
-        { $skip: page },
+        { $skip: page * limit },
         ...(category ? [{ $match: { category } }] : []),
         { $limit: limit },
         {
