@@ -70,7 +70,7 @@ const updateRecipeIntoDB = async (payload: { body: any, recipeId: string }) => {
 };
 
 const getMyRecipesFromDB = async (userId: string) => {
-    const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1 });
+    const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1, rating:1 });
     return result
 };
 
