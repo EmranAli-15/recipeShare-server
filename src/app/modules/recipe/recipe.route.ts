@@ -12,6 +12,8 @@ route.get('/recipe/getRecipes', recipeControllers.getRecipes);
 
 route.get('/recipe/getCategoryRecipes', recipeControllers.getCategoryRecipes);
 
+route.get('/recipe/searchRecipes', recipeControllers.searchRecipes);
+
 route.get('/recipe/getSingleRecipe/:id', recipeControllers.getSingleRecipe);
 
 route.get("/recipe/getMyRecipe/:userId", recipeControllers.getMyRecipe);

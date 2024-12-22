@@ -34,6 +34,21 @@ const getRecipes = catchAsync(
     }
 );
 
+const searchRecipes = catchAsync(
+    async (req, res) => {
+        const { search } = req.query;
+
+        const result = await recipeServices.searchRecipesFromDB(search as any);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'Recipes searched successfully',
+            data: result
+        });
+    }
+);
+
 const getCategoryRecipes = catchAsync(
     async (req, res) => {
         const { lastFetchedId, limit, category } = req.query;
@@ -137,5 +152,6 @@ export const recipeControllers = {
     updateRecipe,
     createCommentInARecipe,
     updateLikeInRecipe,
-    getCategoryRecipes
+    getCategoryRecipes,
+    searchRecipes
 };

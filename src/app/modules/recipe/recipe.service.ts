@@ -10,7 +10,7 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
     return result;
 };
 
-const getRecipesFormDB = async (page: number, limit: number, category: any) => {    
+const getRecipesFormDB = async (page: number, limit: number, category: any) => {
     const result = await Recipe.aggregate([
         { $skip: page * limit },
         ...(category ? [{ $match: { category } }] : []),
@@ -69,8 +69,36 @@ const updateRecipeIntoDB = async (payload: { body: any, recipeId: string }) => {
     return result;
 };
 
+const searchRecipesFromDB = async (searchParams: any) => {
+    const result = await Recipe.aggregate([
+        {
+            $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        { $unwind: "$user" },
+        {
+            $match: {
+                $or: [
+                    { title: { $regex: searchParams, $options: "i" } },
+                    { "user.name": { $regex: searchParams, $options: "i" } }
+                ]
+            }
+        },
+        { $limit: 3 },
+        {
+            $project: { title: 1, image: 1, "user.name": 1 }
+        }
+    ]);
+
+    return result;
+}
+
 const getMyRecipesFromDB = async (userId: string) => {
-    const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1, rating:1 });
+    const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1, rating: 1 });
     return result
 };
 
@@ -100,5 +128,6 @@ export const recipeServices = {
     updateRecipeIntoDB,
     createCommentInARecipeIntoDB,
     updateLikesInRecipeIntoDB,
-    getCategoryRecipesFormDB
+    getCategoryRecipesFormDB,
+    searchRecipesFromDB
 };
