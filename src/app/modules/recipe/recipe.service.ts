@@ -69,8 +69,9 @@ const updateRecipeIntoDB = async (payload: { body: any, recipeId: string }) => {
     return result;
 };
 
-const searchRecipesFromDB = async (searchParams: any) => {
+const searchRecipesFromDB = async (search: string, limit: number, lastFetchedId: string) => {
     const result = await Recipe.aggregate([
+        { $match: { ...(lastFetchedId && { _id: { $gt: new ObjectId(lastFetchedId) } }) } },
         {
             $lookup: {
                 from: "users",
@@ -83,17 +84,17 @@ const searchRecipesFromDB = async (searchParams: any) => {
         {
             $match: {
                 $or: [
-                    { title: { $regex: searchParams, $options: "i" } },
-                    { "user.name": { $regex: searchParams, $options: "i" } }
+                    { title: { $regex: search, $options: "i" } },
+                    { "user.name": { $regex: search, $options: "i" } }
                 ]
             }
         },
-        { $limit: 3 },
+        { $limit: limit },
         {
             $project: { title: 1, image: 1, "user.name": 1 }
         }
     ]);
-
+    
     return result;
 }
 

@@ -36,9 +36,9 @@ const getRecipes = catchAsync(
 
 const searchRecipes = catchAsync(
     async (req, res) => {
-        const { search } = req.query;
-
-        const result = await recipeServices.searchRecipesFromDB(search as any);
+        const { search, limit, lastFetchedId } = req.query;
+        const limitNumber = Number(limit);
+        const result = await recipeServices.searchRecipesFromDB(search as any, limitNumber, lastFetchedId as string);
 
         res.status(200).json({
             success: true,
