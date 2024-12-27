@@ -12,10 +12,23 @@ const recipe_route_1 = require("./app/modules/recipe/recipe.route");
 const user_route_1 = require("./app/modules/user/user.route");
 exports.app = (0, express_1.default)();
 exports.app.use(express_1.default.json());
+// app.use(cors({
+//   origin: 'https://foodrecipe-client.vercel.app',  // The address of client
+//   // origin: 'http://localhost:3000',  // The address of client
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
+const allowedOrigins = ['http://localhost:3000', 'https://foodrecipe-client.vercel.app'];
 exports.app.use((0, cors_1.default)({
-    origin: 'https://foodrecipe-client.vercel.app', // The address of client
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    credentials: true,
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
 }));
 // -----ROUTES START----- //
 exports.app.use('/api', auth_route_1.authRoutes);

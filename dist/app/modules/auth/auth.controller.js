@@ -20,8 +20,8 @@ const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
     const result = yield auth_service_1.authServices.loginUser(req.body);
     const { accessToken, isUserExist } = result;
     res.cookie('accessToken', accessToken, {
-        httpOnly: false, // Secure the cookie
-        secure: false, // Only send cookies over HTTPS
+        httpOnly: true, // Secure the cookie
+        secure: true, // Only send cookies over HTTPS
         sameSite: 'none', // Required for cross-origin
         maxAge: 24 * 60 * 60 * 1000, // Optional: Set expiration (1 day in this case)
     });
@@ -36,8 +36,8 @@ const registerUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     const result = yield auth_service_1.authServices.registerUser(req.body);
     const { accessToken, createUser } = result;
     res.cookie('accessToken', accessToken, {
-        httpOnly: false, // Secure the cookie
-        secure: false, // Only send cookies over HTTPS
+        httpOnly: true, // Secure the cookie
+        secure: true, // Only send cookies over HTTPS
         sameSite: 'none', // Required for cross-origin
         maxAge: 24 * 60 * 60 * 1000, // Optional: Set expiration (1 day in this case)
     });

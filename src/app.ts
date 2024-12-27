@@ -7,10 +7,25 @@ import { userRoutes } from './app/modules/user/user.route';
 export const app = express();
 
 app.use(express.json());
+// app.use(cors({
+//   origin: 'https://foodrecipe-client.vercel.app',  // The address of client
+//   // origin: 'http://localhost:3000',  // The address of client
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
+
+
+const allowedOrigins = ['http://localhost:3000', 'https://foodrecipe-client.vercel.app'];
+
 app.use(cors({
-  origin: 'https://foodrecipe-client.vercel.app',  // The address of client
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  credentials: true,
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin as string) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 }));
 
 
