@@ -8,7 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
 const createAccessToken = (jwtPayload) => {
     return jsonwebtoken_1.default.sign(jwtPayload, config_1.default.accessToken, {
-        expiresIn: "1d"
+        expiresIn: "1 days"
     });
 };
 exports.createAccessToken = createAccessToken;

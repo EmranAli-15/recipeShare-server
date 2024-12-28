@@ -1,31 +1,17 @@
 import express, { Request, Response } from 'express';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import cors from 'cors';
 import { authRoutes } from './app/modules/auth/auth.route';
-import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import { recipeRoutes } from './app/modules/recipe/recipe.route';
 import { userRoutes } from './app/modules/user/user.route';
 export const app = express();
 
 app.use(express.json());
-// app.use(cors({
-//   origin: 'https://foodrecipe-client.vercel.app',  // The address of client
-//   // origin: 'http://localhost:3000',  // The address of client
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   credentials: true
-// }));
-
-
-const allowedOrigins = ['http://localhost:3000', 'https://foodrecipe-client.vercel.app'];
 
 app.use(cors({
-  credentials: true,
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin as string) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
+  origin: ['https://foodrecipe-client.vercel.app', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  credentials: true
 }));
 
 

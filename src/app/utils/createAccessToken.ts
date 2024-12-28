@@ -6,7 +6,7 @@ export const createAccessToken = (jwtPayload: any) => {
         jwtPayload,
         config.accessToken as string,
         {
-            expiresIn: "1d"
+            expiresIn: "1 days"
         }
     )
 };

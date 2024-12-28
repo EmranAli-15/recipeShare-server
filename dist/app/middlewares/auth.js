@@ -23,8 +23,7 @@ exports.userRole = {
 };
 const auth = (...requiredFields) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const accessToken = req.headers.cookie;
-        const token = accessToken === null || accessToken === void 0 ? void 0 : accessToken.split("=")[1];
+        const token = req.headers.accesstoken;
         if (!token) {
             throw new AppError_1.default(400, 'Please login first!');
         }
