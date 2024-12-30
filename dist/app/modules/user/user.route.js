@@ -14,4 +14,5 @@ route.patch('/user/updateUser/:id', (0, auth_1.default)("admin", "user"), (0, va
 route.patch('/user/updateFollowing', (0, auth_1.default)("admin", "user"), (0, validateRequest_1.default)(user_validation_1.userValidations.updateUserValidation), user_controller_1.userControllers.updateFollowing);
 route.get('/auth/myProfile/:id', (0, auth_1.default)("user", "admin"), user_controller_1.userControllers.myProfile);
 route.get('/user/anyUserProfile/:id', user_controller_1.userControllers.anyUserProfile);
+route.post('/user/updatePassword', (0, auth_1.default)("user", "admin"), (0, validateRequest_1.default)(user_validation_1.userValidations.updateUserValidation), user_controller_1.userControllers.updateUserPassword);
 exports.userRoutes = route;

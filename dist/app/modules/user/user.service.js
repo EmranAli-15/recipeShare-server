@@ -15,6 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userServices = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = require("./user.model");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const config_1 = __importDefault(require("../../config"));
+const AppError_1 = __importDefault(require("../../errors/AppError"));
 const updateUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.findByIdAndUpdate(payload.id, { $set: payload.body }, { new: true, runValidators: true });
     return result;
@@ -48,9 +51,24 @@ const anyUserProfileFromDB = (id) => __awaiter(void 0, void 0, void 0, function*
     const result = yield user_model_1.User.findById(id);
     return result;
 });
+const updateUserPasswordIntoDB = (userId, currentPass, newPass) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findById(userId);
+    if (result) {
+        const checked = yield bcrypt_1.default.compare(currentPass, result.password);
+        if (!checked)
+            throw new AppError_1.default(403, "password not matched.");
+        const newHash = bcrypt_1.default.hashSync(newPass, Number(config_1.default.saltRounds));
+        yield user_model_1.User.findByIdAndUpdate(userId, {
+            password: newHash
+        });
+        return;
+    }
+    ;
+});
 exports.userServices = {
     updateUserIntoDB,
     updateFollowingIntoDB,
     myProfile,
-    anyUserProfileFromDB
+    anyUserProfileFromDB,
+    updateUserPasswordIntoDB
 };

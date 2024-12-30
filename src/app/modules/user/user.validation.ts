@@ -25,7 +25,9 @@ const updateUserValidation = z.object({
         followers: z.string().optional(),
         totalRecipes: z.number().optional(),
         isDeleted: z.boolean().optional(),
-        OTP: z.string().optional()
+        OTP: z.string().optional(),
+        currentPassword: z.string().optional(),
+        newPassword: z.string().optional(),
     })
 });
 

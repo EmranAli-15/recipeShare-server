@@ -26,7 +26,9 @@ const updateUserValidation = zod_1.z.object({
         followers: zod_1.z.string().optional(),
         totalRecipes: zod_1.z.number().optional(),
         isDeleted: zod_1.z.boolean().optional(),
-        OTP: zod_1.z.string().optional()
+        OTP: zod_1.z.string().optional(),
+        currentPassword: zod_1.z.string().optional(),
+        newPassword: zod_1.z.string().optional(),
     })
 });
 exports.userValidations = {

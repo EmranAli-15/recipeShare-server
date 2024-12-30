@@ -1,6 +1,5 @@
 import catchAsync from "../../utils/catchAsync";
 import { userServices } from "./user.service";
-import { strict } from "assert";
 
 
 const updateAUser = catchAsync(
@@ -63,9 +62,24 @@ const anyUserProfile = catchAsync(
     }
 );
 
+const updateUserPassword = catchAsync(
+    async (req, res) => {
+        const { userId, currentPassword, newPassword } = req.body;
+        const result = await userServices.updateUserPasswordIntoDB(userId, currentPassword, newPassword);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Password updated successfully",
+            data: result
+        });
+    }
+);
+
 export const userControllers = {
     updateAUser,
     updateFollowing,
     myProfile,
-    anyUserProfile
+    anyUserProfile,
+    updateUserPassword
 };

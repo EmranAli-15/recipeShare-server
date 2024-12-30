@@ -14,4 +14,6 @@ route.get('/auth/myProfile/:id', auth("user", "admin"), userControllers.myProfil
 
 route.get('/user/anyUserProfile/:id', userControllers.anyUserProfile);
 
+route.post('/user/updatePassword', auth("user", "admin"), validateRequest(userValidations.updateUserValidation), userControllers.updateUserPassword);
+
 export const userRoutes = route;

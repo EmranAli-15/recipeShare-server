@@ -57,9 +57,20 @@ const anyUserProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
         data: result
     });
 }));
+const updateUserPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, currentPassword, newPassword } = req.body;
+    const result = yield user_service_1.userServices.updateUserPasswordIntoDB(userId, currentPassword, newPassword);
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Password updated successfully",
+        data: result
+    });
+}));
 exports.userControllers = {
     updateAUser,
     updateFollowing,
     myProfile,
-    anyUserProfile
+    anyUserProfile,
+    updateUserPassword
 };
