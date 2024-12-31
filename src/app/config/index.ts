@@ -11,4 +11,6 @@ export default {
     userPassword: process.env.USER_PASSWORD,
 
     accessToken: process.env.ACCESS_TOKEN,
+
+    nodemailer_pass: process.env.NODEMAILER_PASS
 };

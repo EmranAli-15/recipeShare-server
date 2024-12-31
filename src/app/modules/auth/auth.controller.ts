@@ -10,7 +10,7 @@ const loginUser = catchAsync(
             success: true,
             statusCode: 200,
             message: "User logged in successfully",
-            data: {isUserExist, accessToken}
+            data: { isUserExist, accessToken }
         });
     }
 );
@@ -24,7 +24,21 @@ const registerUser = catchAsync(
             success: true,
             statusCode: 200,
             message: "User created successfully",
-            data: {createUser, accessToken}
+            data: { createUser, accessToken }
+        });
+    }
+);
+
+const getOTP = catchAsync(
+    async (req, res) => {
+        const { email } = req.body;
+        const result = await authServices.getOTP(email);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "User logged in successfully",
+            data: result
         });
     }
 );
@@ -32,4 +46,5 @@ const registerUser = catchAsync(
 export const authControllers = {
     loginUser,
     registerUser,
+    getOTP
 };
