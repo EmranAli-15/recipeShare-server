@@ -66,32 +66,67 @@ const registerUser = async (payload: TAuthRegister) => {
 };
 
 const getOTP = async (userEmail: string) => {
-    const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: "mohammademranali15@gmail.com",
-            pass: config.nodemailer_pass
-        },
+
+    const user = await User.findOne({
+        email: userEmail
     });
 
-    function sendMail(to: string, sub: string, msg: string) {
-        transporter.sendMail({
-            to: to,
-            subject: sub,
-            html: `<div><p>Do not share your OTP with others.</p><h1 style={{fontWeight: 'bold'}}>${msg}</h1></div>`
-        })
-    };
+    if (user) {
+        const OTP = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
+        await User.findByIdAndUpdate(
+            user._id,
+            {
+                OTP: OTP.toString()
+            }
+        );
 
-    const OTP = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: "mohammademranali15@gmail.com",
+                pass: config.nodemailer_pass
+            },
+        });
 
-    sendMail(userEmail, "OTP for FOOD RECIPE", OTP.toString());
+        function sendMail(to: string, sub: string, msg: string) {
+            transporter.sendMail({
+                to: to,
+                subject: sub,
+                html: `<div><p>Do not share your OTP with others.</p><h1 style={{fontWeight: 'bold'}}>${msg}</h1></div>`
+            })
+        };
 
+        sendMail(userEmail, "OTP for FOOD RECIPE", OTP.toString());
+    }
 };
+
+const setForgotPassword = async (userEmail: string, OTP: string, newPass: string) => {
+    const user = await User.findOne({ email: userEmail });
+    if (OTP && user?.OTP == OTP) {
+        const newHash = bcrypt.hashSync(newPass, Number(config.saltRounds));
+        await User.findByIdAndUpdate(
+            user._id,
+            {
+                password: newHash
+            }
+        );
+        await User.findByIdAndUpdate(
+            user.id,
+            {
+                OTP: null
+            }
+        )
+    } else {
+        throw new AppError(403, "Incorrect OTP");
+    }
+    return;
+}
 
 export const authServices = {
     loginUser,
     registerUser,
-    getOTP
+    getOTP,
+    setForgotPassword
 };

@@ -11,4 +11,6 @@ route.post('/auth/register', validateRequest(authValidations.registerValidation)
 
 route.post('/auth/getOTP', authControllers.getOTP);
 
+route.post('/auth/setForgotPassword', authControllers.setForgotPassword);
+
 export const authRoutes = route;

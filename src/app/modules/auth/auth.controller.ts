@@ -37,7 +37,21 @@ const getOTP = catchAsync(
         res.status(200).json({
             success: true,
             statusCode: 200,
-            message: "User logged in successfully",
+            message: "OTP sent successfully",
+            data: result
+        });
+    }
+);
+
+const setForgotPassword = catchAsync(
+    async (req, res) => {
+        const { email, OTP, newPassword } = req.body;
+        const result = await authServices.setForgotPassword(email, OTP, newPassword);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Password updated",
             data: result
         });
     }
@@ -46,5 +60,6 @@ const getOTP = catchAsync(
 export const authControllers = {
     loginUser,
     registerUser,
-    getOTP
+    getOTP,
+    setForgotPassword
 };
