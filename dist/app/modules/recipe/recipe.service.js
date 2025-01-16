@@ -43,6 +43,7 @@ const createRecipeIntoDB = (payload) => __awaiter(void 0, void 0, void 0, functi
 });
 const getRecipesFormDB = (page, limit, category) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield recipe_model_1.Recipe.aggregate([
+        { $match: { $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] } },
         { $skip: page * limit },
         ...(category ? [{ $match: { category } }] : []),
         { $limit: limit },
@@ -69,10 +70,23 @@ const getRecipesFormDB = (page, limit, category) => __awaiter(void 0, void 0, vo
 const getCategoryRecipesFormDB = (lastFetchedId, limit, category) => __awaiter(void 0, void 0, void 0, function* () {
     let result;
     if (lastFetchedId == "0") {
-        result = yield recipe_model_1.Recipe.find({ category: category }).limit(limit).populate("user", "name");
+        result = yield recipe_model_1.Recipe.find({
+            $or: [
+                { isDeleted: false },
+                { isDeleted: { $exists: false } }
+            ],
+            category: category,
+        }).limit(limit).populate("user", "name");
     }
     else {
-        result = yield recipe_model_1.Recipe.find({ _id: { $gt: new ObjectId(lastFetchedId) }, category: category })
+        result = yield recipe_model_1.Recipe.find({
+            $or: [
+                { isDeleted: false },
+                { isDeleted: { $exists: false } }
+            ],
+            _id: { $gt: new ObjectId(lastFetchedId) },
+            category: category,
+        })
             .limit(limit)
             .populate("user", "name");
     }
@@ -86,8 +100,13 @@ const updateRecipeIntoDB = (payload) => __awaiter(void 0, void 0, void 0, functi
     const result = yield recipe_model_1.Recipe.findByIdAndUpdate(payload.recipeId, { $set: payload.body }, { new: true, runValidators: true });
     return result;
 });
+const deleteRecipeFromDB = (recipeId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = recipe_model_1.Recipe.findByIdAndUpdate(recipeId, { isDeleted: true });
+    return result;
+});
 const searchRecipesFromDB = (search, limit, lastFetchedId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield recipe_model_1.Recipe.aggregate([
+        { $match: { $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] } },
         { $match: Object.assign({}, (lastFetchedId && { _id: { $gt: new ObjectId(lastFetchedId) } })) },
         {
             $lookup: {
@@ -114,7 +133,10 @@ const searchRecipesFromDB = (search, limit, lastFetchedId) => __awaiter(void 0, 
     return result;
 });
 const getMyRecipesFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield recipe_model_1.Recipe.aggregate([{ $match: { user: new mongoose_1.Types.ObjectId(userId) } }]).project({ image: 1, title: 1, rating: 1 });
+    const result = yield recipe_model_1.Recipe.aggregate([
+        { $match: { $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] } },
+        { $match: { user: new mongoose_1.Types.ObjectId(userId) } }
+    ]).project({ image: 1, title: 1, rating: 1 });
     return result;
 });
 const createCommentInARecipeIntoDB = (_a) => __awaiter(void 0, [_a], void 0, function* ({ recipeId, comment }) {
@@ -136,6 +158,7 @@ exports.recipeServices = {
     getRecipesFormDB,
     getMyRecipesFromDB,
     updateRecipeIntoDB,
+    deleteRecipeFromDB,
     createCommentInARecipeIntoDB,
     updateLikesInRecipeIntoDB,
     getCategoryRecipesFormDB,

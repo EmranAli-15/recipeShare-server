@@ -84,17 +84,6 @@ const getOTP = (userEmail) => __awaiter(void 0, void 0, void 0, function* () {
                 pass: config_1.default.nodemailer_pass
             },
         });
-        yield new Promise((resolve, reject) => {
-            // verify connection configuration
-            transporter.verify(function (error, success) {
-                if (error) {
-                    reject(error);
-                }
-                else {
-                    resolve(success);
-                }
-            });
-        });
         function sendMail(to, sub, msg) {
             return __awaiter(this, void 0, void 0, function* () {
                 yield new Promise((resolve, reject) => {

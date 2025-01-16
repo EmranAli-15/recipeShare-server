@@ -70,6 +70,16 @@ const updateRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result
     });
 }));
+const deleteRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { recipeId } = req.params;
+    const result = yield recipe_service_1.recipeServices.deleteRecipeFromDB(recipeId);
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: 'Recipe deleted successfully',
+        data: result
+    });
+}));
 const getSingleRecipe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield recipe_service_1.recipeServices.getSingleRecipeFromDB(id);
@@ -118,6 +128,7 @@ exports.recipeControllers = {
     getRecipes,
     getMyRecipe,
     updateRecipe,
+    deleteRecipe,
     createCommentInARecipe,
     updateLikeInRecipe,
     getCategoryRecipes,

@@ -20,6 +20,8 @@ route.get("/recipe/getMyRecipe/:userId", recipeControllers.getMyRecipe);
 
 route.patch('/recipe/updateRecipe/:recipeId', auth("user", "admin"), validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.updateRecipe);
 
+route.delete('/recipe/deleteRecipe/:recipeId', auth("user", "admin"), validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.deleteRecipe);
+
 route.patch('/recipe/pasteComment/:recipeId', auth("user", "admin"), validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.createCommentInARecipe);
 
 route.patch('/recipe/updateLike/:recipeId', auth("user", "admin"), validateRequest(recipeValidations.updateRecipeValidation), recipeControllers.updateLikeInRecipe);

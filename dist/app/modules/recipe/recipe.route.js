@@ -17,6 +17,7 @@ route.get('/recipe/searchRecipes', recipe_controller_1.recipeControllers.searchR
 route.get('/recipe/getSingleRecipe/:id', recipe_controller_1.recipeControllers.getSingleRecipe);
 route.get("/recipe/getMyRecipe/:userId", recipe_controller_1.recipeControllers.getMyRecipe);
 route.patch('/recipe/updateRecipe/:recipeId', (0, auth_1.default)("user", "admin"), (0, validateRequest_1.default)(recipe_validation_1.recipeValidations.updateRecipeValidation), recipe_controller_1.recipeControllers.updateRecipe);
+route.delete('/recipe/deleteRecipe/:recipeId', (0, auth_1.default)("user", "admin"), (0, validateRequest_1.default)(recipe_validation_1.recipeValidations.updateRecipeValidation), recipe_controller_1.recipeControllers.deleteRecipe);
 route.patch('/recipe/pasteComment/:recipeId', (0, auth_1.default)("user", "admin"), (0, validateRequest_1.default)(recipe_validation_1.recipeValidations.updateRecipeValidation), recipe_controller_1.recipeControllers.createCommentInARecipe);
 route.patch('/recipe/updateLike/:recipeId', (0, auth_1.default)("user", "admin"), (0, validateRequest_1.default)(recipe_validation_1.recipeValidations.updateRecipeValidation), recipe_controller_1.recipeControllers.updateLikeInRecipe);
 exports.recipeRoutes = route;

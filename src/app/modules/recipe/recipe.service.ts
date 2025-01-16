@@ -12,7 +12,7 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
 
 const getRecipesFormDB = async (page: number, limit: number, category: any) => {
     const result = await Recipe.aggregate([
-        { $match: { $or: [{ isDelete: false }, { isDelete: { $exists: false } }] } },
+        { $match: { $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] } },
         { $skip: page * limit },
         ...(category ? [{ $match: { category } }] : []),
         { $limit: limit },
@@ -44,8 +44,8 @@ const getCategoryRecipesFormDB = async (lastFetchedId: string | number, limit: n
     if (lastFetchedId == "0") {
         result = await Recipe.find({
             $or: [
-                { isDelete: false },
-                { isDelete: { $exists: false } }
+                { isDeleted: false },
+                { isDeleted: { $exists: false } }
             ],
             category: category,
         }).limit(limit).populate("user", "name")
@@ -53,8 +53,8 @@ const getCategoryRecipesFormDB = async (lastFetchedId: string | number, limit: n
         result = await Recipe.find(
             {
                 $or: [
-                    { isDelete: false },
-                    { isDelete: { $exists: false } }
+                    { isDeleted: false },
+                    { isDeleted: { $exists: false } }
                 ],
                 _id: { $gt: new ObjectId(lastFetchedId) },
                 category: category,
@@ -83,9 +83,14 @@ const updateRecipeIntoDB = async (payload: { body: any, recipeId: string }) => {
     return result;
 };
 
+const deleteRecipeFromDB = async (recipeId: string) => {
+    const result = Recipe.findByIdAndUpdate(recipeId, { isDeleted: true });
+    return result;
+};
+
 const searchRecipesFromDB = async (search: string, limit: number, lastFetchedId: string) => {
     const result = await Recipe.aggregate([
-        { $match: { $or: [{ isDelete: false }, { isDelete: { $exists: false } }] } },
+        { $match: { $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] } },
         { $match: { ...(lastFetchedId && { _id: { $gt: new ObjectId(lastFetchedId) } }) } },
         {
             $lookup: {
@@ -115,7 +120,7 @@ const searchRecipesFromDB = async (search: string, limit: number, lastFetchedId:
 
 const getMyRecipesFromDB = async (userId: string) => {
     const result = await Recipe.aggregate([
-        { $match: { $or: [{ isDelete: false }, { isDelete: { $exists: false } }] } },
+        { $match: { $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] } },
         { $match: { user: new Types.ObjectId(userId) } }
     ]).project({ image: 1, title: 1, rating: 1 });
     return result
@@ -145,6 +150,7 @@ export const recipeServices = {
     getRecipesFormDB,
     getMyRecipesFromDB,
     updateRecipeIntoDB,
+    deleteRecipeFromDB,
     createCommentInARecipeIntoDB,
     updateLikesInRecipeIntoDB,
     getCategoryRecipesFormDB,
