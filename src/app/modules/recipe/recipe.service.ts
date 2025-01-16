@@ -12,6 +12,7 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
 
 const getRecipesFormDB = async (page: number, limit: number, category: any) => {
     const result = await Recipe.aggregate([
+        { $match: { $or: [{ isDelete: false }, { isDelete: { $exists: false } }] } },
         { $skip: page * limit },
         ...(category ? [{ $match: { category } }] : []),
         { $limit: limit },
@@ -41,10 +42,23 @@ const getCategoryRecipesFormDB = async (lastFetchedId: string | number, limit: n
     let result;
 
     if (lastFetchedId == "0") {
-        result = await Recipe.find({ category: category }).limit(limit).populate("user", "name")
+        result = await Recipe.find({
+            $or: [
+                { isDelete: false },
+                { isDelete: { $exists: false } }
+            ],
+            category: category,
+        }).limit(limit).populate("user", "name")
     } else {
         result = await Recipe.find(
-            { _id: { $gt: new ObjectId(lastFetchedId) }, category: category },
+            {
+                $or: [
+                    { isDelete: false },
+                    { isDelete: { $exists: false } }
+                ],
+                _id: { $gt: new ObjectId(lastFetchedId) },
+                category: category,
+            },
         )
             .limit(limit)
             .populate("user", "name")
@@ -71,6 +85,7 @@ const updateRecipeIntoDB = async (payload: { body: any, recipeId: string }) => {
 
 const searchRecipesFromDB = async (search: string, limit: number, lastFetchedId: string) => {
     const result = await Recipe.aggregate([
+        { $match: { $or: [{ isDelete: false }, { isDelete: { $exists: false } }] } },
         { $match: { ...(lastFetchedId && { _id: { $gt: new ObjectId(lastFetchedId) } }) } },
         {
             $lookup: {
@@ -94,12 +109,15 @@ const searchRecipesFromDB = async (search: string, limit: number, lastFetchedId:
             $project: { title: 1, image: 1, "user.name": 1 }
         }
     ]);
-    
+
     return result;
 }
 
 const getMyRecipesFromDB = async (userId: string) => {
-    const result = await Recipe.aggregate([{ $match: { user: new Types.ObjectId(userId) } }]).project({ image: 1, title: 1, rating: 1 });
+    const result = await Recipe.aggregate([
+        { $match: { $or: [{ isDelete: false }, { isDelete: { $exists: false } }] } },
+        { $match: { user: new Types.ObjectId(userId) } }
+    ]).project({ image: 1, title: 1, rating: 1 });
     return result
 };
 

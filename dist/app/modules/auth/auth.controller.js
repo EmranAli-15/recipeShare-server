@@ -35,7 +35,29 @@ const registerUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: { createUser, accessToken }
     });
 }));
+const getOTP = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
+    const result = yield auth_service_1.authServices.getOTP(email);
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "OTP sent successfully",
+        data: result
+    });
+}));
+const setForgotPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, OTP, newPassword } = req.body;
+    const result = yield auth_service_1.authServices.setForgotPassword(email, OTP, newPassword);
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Password updated",
+        data: result
+    });
+}));
 exports.authControllers = {
     loginUser,
     registerUser,
+    getOTP,
+    setForgotPassword
 };

@@ -5,6 +5,7 @@ import { TAuth, TAuthRegister } from "./auth.interface";
 import { createAccessToken } from "../../utils/createAccessToken";
 import nodemailer from "nodemailer";
 import config from "../../config";
+import { resolve } from "path";
 
 
 const loginUser = async (payload: TAuth) => {
@@ -66,7 +67,6 @@ const registerUser = async (payload: TAuthRegister) => {
 };
 
 const getOTP = async (userEmail: string) => {
-
     const user = await User.findOne({
         email: userEmail
     });
@@ -90,15 +90,25 @@ const getOTP = async (userEmail: string) => {
             },
         });
 
-        function sendMail(to: string, sub: string, msg: string) {
-            transporter.sendMail({
-                to: to,
-                subject: sub,
-                html: `<div><p>Do not share your OTP with others.</p><h1 style={{fontWeight: 'bold'}}>${msg}</h1></div>`
+        async function sendMail(to: string, sub: string, msg: string) {
+            await new Promise((resolve, reject) => {
+                transporter.sendMail({
+                    to: to,
+                    subject: sub,
+                    html: `<div><p>Do not share your OTP with others.</p><h1 style={{fontWeight: 'bold'}}>${msg}</h1></div>`
+                }, (err, info) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(info);
+                    }
+                })
             })
         };
 
         sendMail(userEmail, "OTP for FOOD RECIPE", OTP.toString());
+    } else {
+        throw new AppError(403, "User not exit.");
     }
 };
 
