@@ -93,7 +93,7 @@ const getCategoryRecipesFormDB = (lastFetchedId, limit, category) => __awaiter(v
     return result;
 });
 const getSingleRecipeFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield recipe_model_1.Recipe.findById(id).populate("user").populate("comments.userId", "name photo");
+    const result = yield recipe_model_1.Recipe.findById(id).populate("user").populate("comments.userId", "name photo role");
     return result;
 });
 const updateRecipeIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
