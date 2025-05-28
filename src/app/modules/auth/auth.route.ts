@@ -13,4 +13,6 @@ route.post('/auth/getOTP', authControllers.getOTP);
 
 route.post('/auth/setForgotPassword', authControllers.setForgotPassword);
 
+route.post('/auth/googleSignIn', authControllers.googleSignIn);
+
 export const authRoutes = route;

@@ -15,7 +15,6 @@ const auth = (...requiredFields: TUserRole[]) => {
     return catchAsync(
         async (req: Request, res: Response, next: NextFunction) => {
             const token = req.headers.accesstoken as string;
-
             if (!token) {
                 throw new AppError(400, 'Please login first!');
             };

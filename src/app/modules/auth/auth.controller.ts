@@ -29,6 +29,21 @@ const registerUser = catchAsync(
     }
 );
 
+const googleSignIn = catchAsync(
+    async (req, res) => {
+        const {name, email} = req.body;
+        const result = await authServices.googleSignIn(name, email);
+        const { accessToken, createUser } = result;
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "User created successfully",
+            data: { createUser, accessToken }
+        });
+    }
+);
+
 const getOTP = catchAsync(
     async (req, res) => {
         const { email } = req.body;
@@ -61,5 +76,6 @@ export const authControllers = {
     loginUser,
     registerUser,
     getOTP,
+    googleSignIn,
     setForgotPassword
 };

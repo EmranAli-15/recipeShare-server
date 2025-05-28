@@ -1,11 +1,10 @@
-import AppError from "../../errors/AppError";
-import { User } from "../user/user.model";
-import bcrypt from 'bcrypt';
 import { TAuth, TAuthRegister } from "./auth.interface";
 import { createAccessToken } from "../../utils/createAccessToken";
-import nodemailer from "nodemailer";
+import { User } from "../user/user.model";
 import config from "../../config";
-import { resolve } from "path";
+import bcrypt from 'bcrypt';
+import nodemailer from "nodemailer";
+import AppError from "../../errors/AppError";
 
 
 const loginUser = async (payload: TAuth) => {
@@ -27,7 +26,9 @@ const loginUser = async (payload: TAuth) => {
     const jwtPayload = {
         email: isUserExist.email,
         role: isUserExist.role,
-        userId: isUserExist?._id
+        userId: isUserExist?._id,
+        name: isUserExist.name,
+        photo: isUserExist.photo
     };
 
     const accessToken = createAccessToken(jwtPayload);
@@ -134,9 +135,54 @@ const setForgotPassword = async (userEmail: string, OTP: string, newPass: string
     return;
 }
 
+const googleSignIn = async (name: string, email: string) => {
+    const isUserExist = await User.findOne({ email: email });
+
+    if (!isUserExist) {
+        const data = {
+            name,
+            email,
+            role: "user",
+            password: config.userPassword
+        }
+        const createUser = await User.create(data);
+        const jwtPayload = {
+            email: createUser.email,
+            role: createUser.role,
+            userId: createUser?._id,
+            name: createUser.name,
+            photo: createUser?.photo
+        };
+
+        const accessToken = createAccessToken(jwtPayload);
+
+        return {
+            accessToken,
+            createUser
+        };
+    }
+    else {
+        const jwtPayload = {
+            email: isUserExist.email,
+            role: isUserExist.role,
+            userId: isUserExist?._id,
+            name: isUserExist.name,
+            photo: isUserExist?.photo
+        };
+
+        const accessToken = createAccessToken(jwtPayload);
+
+        return {
+            accessToken,
+            isUserExist
+        };
+    }
+}
+
 export const authServices = {
     loginUser,
     registerUser,
     getOTP,
+    googleSignIn,
     setForgotPassword
 };
