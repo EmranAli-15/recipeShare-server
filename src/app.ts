@@ -4,6 +4,7 @@ import cors from 'cors';
 import { authRoutes } from './app/modules/auth/auth.route';
 import { recipeRoutes } from './app/modules/recipe/recipe.route';
 import { userRoutes } from './app/modules/user/user.route';
+import { aiRecipeRoutes } from './app/modules/aiRecipe/aiRecipe.route';
 export const app = express();
 
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(cors({
 app.use('/api', authRoutes);
 app.use('/api', recipeRoutes);
 app.use('/api', userRoutes);
+app.use('/api', aiRecipeRoutes);
 
 // -----ROUTES END----- //
 

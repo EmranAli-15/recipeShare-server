@@ -33,10 +33,7 @@ const loginUser = async (payload: TAuth) => {
 
     const accessToken = createAccessToken(jwtPayload);
 
-    return {
-        accessToken,
-        isUserExist
-    };
+    return accessToken;
 };
 
 const registerUser = async (payload: TAuthRegister) => {
@@ -61,11 +58,49 @@ const registerUser = async (payload: TAuthRegister) => {
 
     const accessToken = createAccessToken(jwtPayload);
 
-    return {
-        accessToken,
-        createUser
-    };
+    return accessToken;
 };
+
+const googleSignIn = async (name: string, email: string) => {
+    const isUserExist = await User.findOne({ email: email });
+
+    if (!isUserExist) {
+        const data = {
+            name,
+            email,
+            role: "user",
+            password: config.userPassword
+        }
+        const createUser = await User.create(data);
+        const jwtPayload = {
+            email: createUser.email,
+            role: createUser.role,
+            userId: createUser?._id,
+            name: createUser.name,
+            photo: createUser?.photo
+        };
+
+        const accessToken = createAccessToken(jwtPayload);
+
+        return accessToken;
+    }
+    else {
+        const jwtPayload = {
+            email: isUserExist.email,
+            role: isUserExist.role,
+            userId: isUserExist?._id,
+            name: isUserExist.name,
+            photo: isUserExist?.photo
+        };
+
+        const accessToken = createAccessToken(jwtPayload);
+
+        return {
+            accessToken,
+            isUserExist
+        };
+    }
+}
 
 const getOTP = async (userEmail: string) => {
     const user = await User.findOne({
@@ -135,49 +170,6 @@ const setForgotPassword = async (userEmail: string, OTP: string, newPass: string
     return;
 }
 
-const googleSignIn = async (name: string, email: string) => {
-    const isUserExist = await User.findOne({ email: email });
-
-    if (!isUserExist) {
-        const data = {
-            name,
-            email,
-            role: "user",
-            password: config.userPassword
-        }
-        const createUser = await User.create(data);
-        const jwtPayload = {
-            email: createUser.email,
-            role: createUser.role,
-            userId: createUser?._id,
-            name: createUser.name,
-            photo: createUser?.photo
-        };
-
-        const accessToken = createAccessToken(jwtPayload);
-
-        return {
-            accessToken,
-            createUser
-        };
-    }
-    else {
-        const jwtPayload = {
-            email: isUserExist.email,
-            role: isUserExist.role,
-            userId: isUserExist?._id,
-            name: isUserExist.name,
-            photo: isUserExist?.photo
-        };
-
-        const accessToken = createAccessToken(jwtPayload);
-
-        return {
-            accessToken,
-            isUserExist
-        };
-    }
-}
 
 export const authServices = {
     loginUser,

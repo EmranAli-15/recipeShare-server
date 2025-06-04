@@ -17,22 +17,30 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const auth_service_1 = require("./auth.service");
 const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_service_1.authServices.loginUser(req.body);
-    const { accessToken, isUserExist } = result;
     res.status(200).json({
         success: true,
         statusCode: 200,
         message: "User logged in successfully",
-        data: { isUserExist, accessToken }
+        data: result
     });
 }));
 const registerUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_service_1.authServices.registerUser(req.body);
-    const { accessToken, createUser } = result;
     res.status(200).json({
         success: true,
         statusCode: 200,
         message: "User created successfully",
-        data: { createUser, accessToken }
+        data: result
+    });
+}));
+const googleSignIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, email } = req.body;
+    const result = yield auth_service_1.authServices.googleSignIn(name, email);
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "User created successfully",
+        data: result
     });
 }));
 const getOTP = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -59,5 +67,6 @@ exports.authControllers = {
     loginUser,
     registerUser,
     getOTP,
+    googleSignIn,
     setForgotPassword
 };

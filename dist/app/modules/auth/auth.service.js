@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authServices = void 0;
-const AppError_1 = __importDefault(require("../../errors/AppError"));
-const user_model_1 = require("../user/user.model");
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const createAccessToken_1 = require("../../utils/createAccessToken");
-const nodemailer_1 = __importDefault(require("nodemailer"));
+const user_model_1 = require("../user/user.model");
 const config_1 = __importDefault(require("../../config"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const AppError_1 = __importDefault(require("../../errors/AppError"));
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserExist = yield user_model_1.User.findOne({
         email: payload === null || payload === void 0 ? void 0 : payload.email
@@ -36,13 +36,12 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const jwtPayload = {
         email: isUserExist.email,
         role: isUserExist.role,
-        userId: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist._id
+        userId: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist._id,
+        name: isUserExist.name,
+        photo: isUserExist.photo
     };
     const accessToken = (0, createAccessToken_1.createAccessToken)(jwtPayload);
-    return {
-        accessToken,
-        isUserExist
-    };
+    return accessToken;
 });
 const registerUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserExist = yield user_model_1.User.findOne({
@@ -61,10 +60,42 @@ const registerUser = (payload) => __awaiter(void 0, void 0, void 0, function* ()
         userId: createUser._id
     };
     const accessToken = (0, createAccessToken_1.createAccessToken)(jwtPayload);
-    return {
-        accessToken,
-        createUser
-    };
+    return accessToken;
+});
+const googleSignIn = (name, email) => __awaiter(void 0, void 0, void 0, function* () {
+    const isUserExist = yield user_model_1.User.findOne({ email: email });
+    if (!isUserExist) {
+        const data = {
+            name,
+            email,
+            role: "user",
+            password: config_1.default.userPassword
+        };
+        const createUser = yield user_model_1.User.create(data);
+        const jwtPayload = {
+            email: createUser.email,
+            role: createUser.role,
+            userId: createUser === null || createUser === void 0 ? void 0 : createUser._id,
+            name: createUser.name,
+            photo: createUser === null || createUser === void 0 ? void 0 : createUser.photo
+        };
+        const accessToken = (0, createAccessToken_1.createAccessToken)(jwtPayload);
+        return accessToken;
+    }
+    else {
+        const jwtPayload = {
+            email: isUserExist.email,
+            role: isUserExist.role,
+            userId: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist._id,
+            name: isUserExist.name,
+            photo: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.photo
+        };
+        const accessToken = (0, createAccessToken_1.createAccessToken)(jwtPayload);
+        return {
+            accessToken,
+            isUserExist
+        };
+    }
 });
 const getOTP = (userEmail) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.findOne({
@@ -129,5 +160,6 @@ exports.authServices = {
     loginUser,
     registerUser,
     getOTP,
+    googleSignIn,
     setForgotPassword
 };

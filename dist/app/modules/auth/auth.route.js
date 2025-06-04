@@ -13,4 +13,5 @@ route.post('/auth/login', (0, validateRequest_1.default)(auth_validation_1.authV
 route.post('/auth/register', (0, validateRequest_1.default)(auth_validation_1.authValidations.registerValidation), auth_controller_1.authControllers.registerUser);
 route.post('/auth/getOTP', auth_controller_1.authControllers.getOTP);
 route.post('/auth/setForgotPassword', auth_controller_1.authControllers.setForgotPassword);
+route.post('/auth/googleSignIn', auth_controller_1.authControllers.googleSignIn);
 exports.authRoutes = route;
