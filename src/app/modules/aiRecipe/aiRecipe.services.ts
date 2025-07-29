@@ -23,10 +23,10 @@ const generateAiRecipe = async (payload: any) => {
                         }
 
                         Guidelines:
-                        - Only use the provided ingredients.
+                        - Only use the provided ingredients and make it array.
                         - Make the recipe coherent and realistic.
                         - Use metric measurements if possible.
-                        - Keep instructions concise but clear.
+                        - Keep instructions concise but clear and it must be an array.
                         `;
 
         const result = await model.generateContent(prompt);
