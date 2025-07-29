@@ -4,9 +4,8 @@ const genAI = new GoogleGenerativeAI(config.gemini_api_key as string);
 
 const generateAiRecipe = async (payload: any) => {
     const ingredients = payload;
-
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         const prompt = `You are a helpful recipe generator.
                         Generate a creative and delicious recipe using the following ingredients: ${ingredients}.
                         Please strictly follow this JSON output format:
@@ -31,9 +30,7 @@ const generateAiRecipe = async (payload: any) => {
                         `;
 
         const result = await model.generateContent(prompt);
-        let output = result.response.candidates;
-
-        return output;
+        return result;
 
     } catch (error) {
         throw new Error("Something went wrong!")
